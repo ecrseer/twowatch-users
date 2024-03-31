@@ -1,11 +1,8 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class AppService implements OnModuleInit {
-  onModuleInit() {
-    console.log('🚀 ~ AppService initialized ~ a:');
-  }
+export class AppService {
   getHello(): string {
-    return 'Hello World!';
+    return 'twowatch-users api is running!';
   }
 }
