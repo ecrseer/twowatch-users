@@ -6,13 +6,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  // create(@Body() createUserDto: CreateUserDto) {
-  @Get()
-  create() {
-    return this.userService.create({
-      name: 'test',
-      email: 'test@mail',
-      password: '123test',
-    });
+  @Post()
+  create(@Body() createUserDto: CreateUserDto) {
+    console.log(
+      '~☠️ ~ UserController ~ create ~ createUserDto:',
+      createUserDto,
+    );
+    delete createUserDto._id;
+    return this.userService.create(createUserDto);
   }
 }

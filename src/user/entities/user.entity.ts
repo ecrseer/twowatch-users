@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { PrivateChat } from '../../private-chat/entities/private-chat.entity';
 
 @Schema({ timestamps: true })
 export class User {
@@ -15,6 +16,11 @@ export class User {
 
   @Prop()
   moviesList: string[];
+
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: PrivateChat.name }],
+  })
+  privateChatsFixed: PrivateChat[];
 }
 
 export type UserDocument = HydratedDocument<User>;
