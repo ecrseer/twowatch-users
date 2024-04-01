@@ -8,8 +8,10 @@ import { InjectModel } from '@nestjs/mongoose';
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
-  create(createUserDto: CreateUserDto) {
+  public async create(createUserDto: CreateUserDto) {
     console.log('~☠️ ~ UserService ~ create ~ createUserDto:', createUserDto);
-    return this.userModel.create(createUserDto);
+    return await this.userModel.create(createUserDto);
   }
+
+  public async create_private_chat_notification(user_id: string) {}
 }
