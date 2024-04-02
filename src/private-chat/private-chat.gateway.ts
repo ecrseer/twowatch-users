@@ -37,10 +37,12 @@ export class PrivateChatGateway {
     user: { room_id: string; sender_user_id: string; content: string },
     @ConnectedSocket() client: Socket,
   ) {
-    const updated = this.privateChatService.add_message(user.room_id, {
+    const updated = await this.privateChatService.add_message(user.room_id, {
       content: user.content,
       sender_user_id: user.sender_user_id,
     });
+    console.log(updated);
     client.to(user.room_id).emit('append_message_private_chat', updated);
+    return updated;
   }
 }

@@ -36,11 +36,14 @@ export class PrivateChatService {
     return room;
   }
 
-  public async add_message(room_id: string, message: TwaMessage) {
-    const updated = await this.privateChatModel.updateOne(
+  public async add_message(
+    room_id: string,
+    message: TwaMessage,
+  ): Promise<PrivateChat> {
+    const updated = await this.privateChatModel.findOneAndUpdate(
       { _id: room_id },
       { $push: { messages: message } },
-      { new: true },
+      { returnOriginal: false },
     );
     return updated;
   }
