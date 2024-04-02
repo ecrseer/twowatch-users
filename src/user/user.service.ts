@@ -8,6 +8,7 @@ import { InjectModel } from '@nestjs/mongoose';
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+
   public async create(createUserDto: CreateUserDto) {
     console.log('~☠️ ~ UserService ~ create ~ createUserDto:', createUserDto);
     return await this.userModel.create(createUserDto);

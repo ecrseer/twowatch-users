@@ -6,10 +6,7 @@ import { TwaMessage } from './twamessage.schema';
 @Schema({ timestamps: true })
 export class PrivateChat {
   @Prop()
-  userOne: string;
-
-  @Prop()
-  userTwo: string;
+  users: string[];
 
   @Prop()
   messages: TwaMessage[];

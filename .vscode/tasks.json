@@ -1,21 +1,18 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Debug NEST App",
-            "type": "shell",
-            "command": "npm run start:debug",
-            "windows": {
-                "command": "npm run start:debug"
-            },
-            "group": "none",
-            "presentation": {
-                "reveal": "always",
-                "panel": "new"
-            },
-            "runOptions": {
-                "runOn": "folderOpen",
-            }
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Debug NEST App",
+      "type": "shell",
+      "command": "npm run start:debug",
+      "windows": {
+        "command": "npm run start:debug"
+      },
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    }
+  ]
 }
