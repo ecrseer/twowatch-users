@@ -20,10 +20,7 @@ export class PrivateChatService {
         users: { $all: createPrivateChatDto.users },
       })
       .exec();
-    console.log('~☠️ ~ find_private_chat_or_create_one:', {
-      createPrivateChatDto,
-      found,
-    });
+
     if (found) {
       return found;
     }
@@ -32,7 +29,6 @@ export class PrivateChatService {
 
   public async find_one(_id: string) {
     const room = await this.privateChatModel.findOne({ _id }).exec();
-    console.log('~☠️ ~ PrivateChatService ~ find_one ~ room:', room);
     return room;
   }
 

@@ -3,6 +3,7 @@ import {
   SubscribeMessage,
   MessageBody,
   ConnectedSocket,
+  OnGatewayDisconnect,
 } from '@nestjs/websockets';
 import { PrivateChatService } from './private-chat.service';
 import { CreatePrivateChatDto } from './dto/create-private-chat.dto';
@@ -10,8 +11,14 @@ import { UpdatePrivateChatDto } from './dto/update-private-chat.dto';
 import { Socket } from 'socket.io';
 
 @WebSocketGateway({ cors: true })
-export class PrivateChatGateway {
+export class PrivateChatGateway implements OnGatewayDisconnect {
   constructor(private readonly privateChatService: PrivateChatService) {}
+  handleDisconnect(client: any) {
+    // console.log(
+    //   '~☠️ ~ PrivateChatGateway ~ handleDisconnect ~ client:',
+    //   client.id,
+    // );
+  }
 
   @SubscribeMessage('start_private_chat')
   start_private_chat(
@@ -41,7 +48,7 @@ export class PrivateChatGateway {
       content: user.content,
       sender_user_id: user.sender_user_id,
     });
-    console.log(updated);
+
     client.to(user.room_id).emit('append_message_private_chat', updated);
     return updated;
   }
