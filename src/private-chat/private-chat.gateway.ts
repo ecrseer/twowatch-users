@@ -7,12 +7,12 @@ import {
 } from '@nestjs/websockets';
 import { PrivateChatService } from './private-chat.service';
 import { CreatePrivateChatDto } from './dto/create-private-chat.dto';
-import { UpdatePrivateChatDto } from './dto/update-private-chat.dto';
 import { Socket } from 'socket.io';
 
 @WebSocketGateway({ cors: true })
 export class PrivateChatGateway implements OnGatewayDisconnect {
   constructor(private readonly privateChatService: PrivateChatService) {}
+
   handleDisconnect(client: any) {
     // console.log(
     //   '~☠️ ~ PrivateChatGateway ~ handleDisconnect ~ client:',
@@ -30,7 +30,7 @@ export class PrivateChatGateway implements OnGatewayDisconnect {
   }
 
   @SubscribeMessage('enter_private_chat')
-  async find_one(
+  async enter_private_chat(
     @MessageBody() priv_chat_id: string,
     @ConnectedSocket() client: Socket,
   ) {
@@ -52,4 +52,29 @@ export class PrivateChatGateway implements OnGatewayDisconnect {
     client.to(user.room_id).emit('append_message_private_chat', updated);
     return updated;
   }
+
+  @SubscribeMessage('enter_all_private_chats')
+  async enter_all_private_chats(
+    @MessageBody()
+    user: { sender_user_id: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const old_chats = await this.privateChatService.find_all_chats_from_user(
+      user.sender_user_id,
+    );
+
+    for (const chat of old_chats) {
+      await this.enter_private_chat(chat.id, client);
+    }
+    return old_chats;
+  }
+
+  // @SubscribeMessage('enter_private_chat')
+  // async find_one(
+  //   @MessageBody() priv_chat_id: string,
+  //   @ConnectedSocket() client: Socket,
+  // ) {
+  //   client.join(priv_chat_id);
+  //   return await this.privateChatService.find_one(priv_chat_id);
+  // }
 }
