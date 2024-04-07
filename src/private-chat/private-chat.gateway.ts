@@ -3,22 +3,22 @@ import {
   SubscribeMessage,
   MessageBody,
   ConnectedSocket,
-  OnGatewayDisconnect,
 } from '@nestjs/websockets';
 import { PrivateChatService } from './private-chat.service';
 import { CreatePrivateChatDto } from './dto/create-private-chat.dto';
 import { Socket } from 'socket.io';
+import { PrivateChat } from './entities/private-chat.entity';
 
 @WebSocketGateway({ cors: true })
-export class PrivateChatGateway implements OnGatewayDisconnect {
+export class PrivateChatGateway {
   constructor(private readonly privateChatService: PrivateChatService) {}
 
-  handleDisconnect(client: any) {
-    // console.log(
-    //   '~☠️ ~ PrivateChatGateway ~ handleDisconnect ~ client:',
-    //   client.id,
-    // );
-  }
+  // handleDisconnect(client: any) {
+  //   console.log(
+  //      '~☠️ ~ PrivateChatGateway ~ handleDisconnect ~ client:',
+  //      client.id,
+  //    );
+  // }
 
   @SubscribeMessage('start_private_chat')
   start_private_chat(
@@ -63,10 +63,13 @@ export class PrivateChatGateway implements OnGatewayDisconnect {
       user.sender_user_id,
     );
 
+    const entered_chats: PrivateChat[] = [];
+
     for (const chat of old_chats) {
-      await this.enter_private_chat(chat.id, client);
+      const entered = await this.enter_private_chat(chat.id, client);
+      entered_chats.push(entered);
     }
-    return old_chats;
+    return entered_chats;
   }
 
   // @SubscribeMessage('enter_private_chat')

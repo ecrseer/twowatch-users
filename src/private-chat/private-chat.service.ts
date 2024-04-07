@@ -6,7 +6,6 @@ import { Model } from 'mongoose';
 import { TwaMessage } from './entities/twamessage.schema';
 import { UserService } from '../user/user.service';
 import { UserTwaMessageDto } from './dto/user-twamessage-dto';
-import { UserDocument } from '../user/entities/user.entity';
 
 @Injectable()
 export class PrivateChatService {
@@ -32,7 +31,8 @@ export class PrivateChatService {
 
   public async find_one(_id: string) {
     const room = await this.privateChatModel.findOne({ _id }).exec();
-    return room;
+    const mapped = await this.get_room_with_user_names(room);
+    return mapped;
   }
 
   public async add_message(
@@ -46,8 +46,6 @@ export class PrivateChatService {
     );
 
     const mapped = await this.get_room_with_user_names(updated);
-    console.log(mapped);
-    console.log(updated);
 
     return mapped;
   }
