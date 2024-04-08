@@ -12,19 +12,19 @@ export class UserController {
     return await this.userService.find_one_user(id);
   }
 
+  @Patch('/save-movies')
+  add_user_movies(@Body() update_user: UpdateUserDto) {
+    return this.userService.update_user_movies(update_user);
+  }
+
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     delete createUserDto._id;
     return this.userService.create(createUserDto);
   }
 
-  @Patch('/save-movies')
-  add_user_movies(@Body() update_user: UpdateUserDto) {
-    return this.userService.update_user_movies(update_user);
-  }
-
   @Patch()
-  update(@Body() createUserDto: UpdateUserDto) {
-    return this.userService.create(createUserDto);
+  update(@Body() dto: UpdateUserDto) {
+    return this.userService.update_user(dto);
   }
 }
