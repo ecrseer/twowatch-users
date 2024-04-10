@@ -1,13 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { PrivateChatService } from './private-chat.service';
-import { createTestNestApp } from '../../test/helpers';
+import { createMyRealDBTestNestApp } from '../../test/helpers';
 import { PrivateChat } from './entities/private-chat.entity';
 
 describe('PrivateChatService', () => {
   let service: PrivateChatService;
 
   beforeEach(async () => {
-    const { module } = await createTestNestApp();
+    const { module } = await createMyRealDBTestNestApp();
 
     service = module.get<PrivateChatService>(PrivateChatService);
   });

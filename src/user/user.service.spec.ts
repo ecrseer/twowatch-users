@@ -1,5 +1,5 @@
 import { UserService } from './user.service';
-import { createTestNestApp } from '../../test/helpers';
+import { createMyRealDBTestNestApp } from '../../test/helpers';
 
 import { User } from './entities/user.entity';
 
@@ -7,7 +7,7 @@ describe('UserService', () => {
   let service: UserService;
 
   beforeEach(async () => {
-    const { module } = await createTestNestApp();
+    const { module } = await createMyRealDBTestNestApp();
 
     service = module.get<UserService>(UserService);
   });
@@ -30,5 +30,15 @@ describe('UserService', () => {
     const updated = await service.update_user(MOCK_USER);
     console.log(updated);
     expect(updated).toBeTruthy();
+  });
+
+  it('should login user', async () => {
+    const MOCK_USER: Partial<User & { _id: string }> = {
+      email: 'test@mail',
+      password: '123test',
+    };
+    const loged = await service.login_user(MOCK_USER);
+    expect(loged).toBeTruthy();
+    expect(loged?.email).toBeTruthy();
   });
 });

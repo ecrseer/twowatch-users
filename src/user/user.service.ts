@@ -39,4 +39,15 @@ export class UserService {
     );
     return updated;
   }
+
+  async login_user(user: Partial<User>) {
+    const found = await this.userModel.findOne({
+      email: user.email,
+      password: user.password,
+    });
+    if (!found) {
+      throw new NotFoundError('Usuário não encontrado');
+    }
+    return found;
+  }
 }

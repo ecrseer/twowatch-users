@@ -2,6 +2,7 @@ import { Controller, Post, Body, Get, Param, Patch } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { LoginUserDto } from './dto/login-user-dto';
 
 @Controller('user')
 export class UserController {
@@ -15,6 +16,11 @@ export class UserController {
   @Patch('/save-movies')
   add_user_movies(@Body() update_user: UpdateUserDto) {
     return this.userService.update_user_movies(update_user);
+  }
+
+  @Post('/login')
+  async login(@Body() loginData: LoginUserDto) {
+    return await this.userService.login_user(loginData);
   }
 
   @Post()
